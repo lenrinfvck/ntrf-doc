@@ -34,7 +34,8 @@
 
     import urllib.request,os,hashlib; h = '5b468e895e861582c8ac080daaae7722' + 'a0787a887fb19723f006ed5b020ffdf6'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)  
 
-回车安装，之后可使用`Ctrl/Command + shift + p`输入Install Package之后进入插件搜索，回车即选择安装
+回车安装，之后可使用`Ctrl/Command + shift + p`输入Install Package之后进入插件搜索，回车即选择安装  
+
 
 ####常用插件（`Package Control.sublime-settings`为插件列表）
 
@@ -48,10 +49,10 @@
 +   **MarkdownEditing**  Markdown高亮
 
 ###3.快捷键(只列举几个特殊的)
-`Ctrl/Cmd + P`  Goto Anything，直接输入为检索文件，加`:`到指定行数，`@`到指定函数
-`Ctrl/cmd + shift + P` 命令窗口
-`option + 鼠标拖动`(Mac) / `鼠标中键拖动`(Win) 多行选择
-`option + Enter`(Mac) find时find all
+`Ctrl/Cmd + P`  Goto Anything，直接输入为检索文件，加`:`到指定行数，`@`到指定函数  
+`Ctrl/cmd + shift + P` 命令窗口  
+`option + 鼠标拖动`(Mac) / `鼠标中键拖动`(Win) 多行选择  
+`option + Enter`(Mac) find时find all  
 
 ###4.JSHint的使用
 +   安装JSHint 
