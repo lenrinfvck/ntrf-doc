@@ -2,3 +2,4 @@
 持续更新...
 
 +   vagrant使用及centos下的LAMP环境搭建
++   Sublime Text3 实用配置
