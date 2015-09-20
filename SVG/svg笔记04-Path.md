@@ -27,5 +27,14 @@
 ##4.3 路径文本
 ><textPath x="" y="" dx="" dy="">
 
+    <path id="path1" d="M 100 200 Q 200 100 300 200" stroke="#000" fill="none />"  
+    <text>
+        <textPath xlink:href="#path1">
+        路径上的文字
+        </textPath>
+    </text>
+
+
+
 
 
