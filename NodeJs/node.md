@@ -2,6 +2,16 @@
 很重要，写在开头:  
 [https://cnodejs.org/getstart](https://cnodejs.org/getstart)
 
+##模块
+
+    exports.fn1 = function() {};
+    exports.fn2 = function() {};
+    //require该模块返回一个含有fn1,fn2方法的对象  
+        
+    module.exports = function() {};
+    //返回function本身，如返回一个构造函数
+    //不能直接exports是module.exports的一个引用
+
 ##HTTP模块
 监听2015端口，返回hello
 
