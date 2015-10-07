@@ -12,6 +12,8 @@ Express构建在Connect之上的web框架
     app.listen(3000);
 
 ##2. 环境配置
+
+###*app.configure()*
 ####设置环境变量：
 
 >要在UNIX中设置环境变量,可以用这个命令:  
@@ -32,5 +34,9 @@ Express构建在Connect之上的web框架
         app.use(express.errorHandler());
     });
 
+###*app.set()*
+设定express内的环境变量
+
+    app.set("photos", __dirname + "/public/photos");
 
 
