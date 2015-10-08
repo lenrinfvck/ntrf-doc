@@ -12,8 +12,8 @@ Express构建在Connect之上的web框架
     app.listen(3000);
 
 ##2. 环境配置
-
 ###*app.configure()*
+4.0+中已废除, 改用`if ("development" == app.get("env")`
 ####设置环境变量：
 
 >要在UNIX中设置环境变量,可以用这个命令:  
@@ -37,6 +37,23 @@ Express构建在Connect之上的web框架
 ###*app.set()*
 设定express内的环境变量
 
+    var path = require('path');
+    //设置目录变量
     app.set("photos", __dirname + "/public/photos");
+    app.set("views", path.join(__dirname, "views"));
+    //__dirname 为全局变量，值为当前目录
 
+####模板引擎
+    //设置默认为jade
+    app.set("view engine", "jade");
 
+    //设置默认为swig
+    app.engine("html", "swig.renderFile");
+    app.set('view engine', 'html');
+    app.set('views', __dirname + '/views');
+    //默认会开启缓存，需手动关闭
+    app.set('view cache', false);
+    swig.setDefaults({ cache: false });
+    app.get('/', function (req, res) {
+        res.render('index', { json });
+    });
