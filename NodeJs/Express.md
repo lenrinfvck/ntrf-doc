@@ -34,8 +34,8 @@ Express构建在Connect之上的web框架
         app.use(express.errorHandler());
     });
 
-###*app.set()*
-设定express内的环境变量
+###*app.set()*和*app.get()*
+设定express内的环境变量，相应的get是获取
 
     var path = require('path');
     //设置目录变量

@@ -8,6 +8,7 @@ var swig = require("swig");
 var http = require("http");
 
 var routes = require("./routes");
+var upload = require("./routes/upload");
 
 var app = express();
 
@@ -21,6 +22,8 @@ if ("development" == app.get("env")) {
 		cache: false
 	});
 }
+
+app.set("photos", path.join(__dirname, "public/photos"));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
@@ -36,14 +39,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //路由注册
 app.use("/", routes);
-app.use("/upload", require("./routes/upload"));
+app.use("/upload", upload);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	var err = new Error("Not Found");
-	err.status = 404;
-	next(err);
-});
+// app.use(function(req, res, next) {
+// 	var err = new Error("Not Found");
+// 	err.status = 404;
+// 	next(err);
+// });
 
 // error handlers
 

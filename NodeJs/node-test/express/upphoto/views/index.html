@@ -6,6 +6,10 @@
 </head>
 <body>
 	{{ text | default('hellow express') }}
+    {% for prod in photos %}
+        <h5>{{prod.name}}</h5>
+        <img src="{{prod.img}}" alt="">
+    {% endfor %}
 	<p><a href="/upload">上传</a></p>
 </body>
 </html>
