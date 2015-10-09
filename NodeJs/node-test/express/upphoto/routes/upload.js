@@ -6,29 +6,32 @@ var fs = require("fs");
 
 var app = express();
 
-var dir = app.get("photos");
-
 /* GET users listing. */
-router.get("/", function(req, res, next) {
-	res.render("upload");
-});
-router.post("/", function(req, res, next) {
-    var img = req.files.photo.image;
-    var name = req.body.photo.name || img.name;
-    var path = join(dir, img.name);
-    console.log(name, img);
-    fs.rename(img.path, path, function(err) {
-        if(err) return next(err);
+router.route("/")
+	.post(function(req, res, next) {
+		var dir = req.app.get("photos");
+		var img = req.files.photofile;
+		var name = req.body.photo.name || img.name;
+		var imgUrl = path.join(dir, img.name);
+		var redir = path.relative(req.app.get("static"), imgUrl);
+		fs.rename(img.path, imgUrl, function(err) {
+			if (err) return next(err);
 
-        Photo.create({
-            name: name,
-            path: img.name
-        }, function(err) {
-            if(err) return next(err);
+			Photo.create({
+				name: name,
+				path: redir
+			}, function(err) {
+				if (err) return next(err);
 
-            res.redirect("/");
-        });
-    });
-});
+				res.redirect("/");
+				//res.end("end");
+			});
+		});
+	})
+	.get(function(req, res, next) {
+		var dir = req.app.get("photos");
+		res.render("upload");
+	});
+
 
 module.exports = router;

@@ -35,7 +35,8 @@ Express构建在Connect之上的web框架
     });
 
 ###*app.set()*和*app.get()*
-设定express内的环境变量，相应的get是获取
+设定express内的环境变量，相应的get是获取  
+其中get还有只用方式是get(path, fn)为旧版中的路由绑定方式。  
 
     var path = require('path');
     //设置目录变量
@@ -57,3 +58,51 @@ Express构建在Connect之上的web框架
     app.get('/', function (req, res) {
         res.render('index', { json });
     });
+
+##3. express4中的路由写法
+*app.js*
+```js
+    //具体路由配置文件
+    //若为文件夹会使用index.js
+    var routes = require("./routes");      
+    var upload = require("./routes/upload");
+
+    //模板引擎配置
+    app.engine("html", swig.renderFile);
+    app.set("view engine", "html");
+
+    //模板查找根目录
+    app.set("views", path.join(__dirname, "views"));
+    if ("development" == app.get("env")) {
+        app.set("view cache", false);
+        swig.setDefaults({
+            cache: false
+        });
+    }
+
+    //转由路由模块中间件处理
+    app.use("/", routes);
+    app.use("/upload", upload);
+```
+  
+*index.js(routes)*
+```js
+    var express = require('express');
+    var router = express.Router();
+    var Photo = require("../models/photo");
+
+    router.get('/', function(req, res, next) {
+        //req参数中能使用外层的app对象
+        console.log(req.app.get("views"));
+        Photo.find({}, function(err, photos) {
+            if(err) return next(err);
+            //渲染视图
+            res.render("index", {
+                title: "Photos",
+                photos: photos
+            });
+        });
+    });
+
+    module.exports = router;
+```

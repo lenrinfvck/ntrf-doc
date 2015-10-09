@@ -4,6 +4,7 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+var multer = require("multer");
 var swig = require("swig");
 var http = require("http");
 
@@ -23,6 +24,7 @@ if ("development" == app.get("env")) {
 	});
 }
 
+app.set("static", path.join(__dirname, "public"));
 app.set("photos", path.join(__dirname, "public/photos"));
 
 // uncomment after placing your favicon in /public
@@ -31,8 +33,12 @@ app.set("port", process.env.PORT || 3000);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended: false
+	extended: true
 }));
+app.use(multer({
+	dest: app.get("photos")
+}));
+
 app.use(cookieParser());
 //public下静态文件服务器
 app.use(express.static(path.join(__dirname, "public")));

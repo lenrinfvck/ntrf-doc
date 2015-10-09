@@ -5,9 +5,9 @@
 	<title>{{ title | default('上传') }}</title>
 </head>
 <body>
-	<form action="post" enctype="multipart/form-data">
-        <input type="file" name="photo[image]" />
-		<input type="text" name="photo[name]" />
+	<form method="post" enctype="multipart/form-data">
+        <input type="file" name="photofile" />
+		<input type="text" name="photo[name]" placeholder="Name"/>
 		<input type="submit" value="upload" />
 	</form>
 	<p><a href="/">返回</a></p>
