@@ -33,5 +33,12 @@ router.route("/")
 			}
 		);
 	});
-
+router.get("/photo/:id/download", function(req, res, next) {
+	var id = req.params.id;
+	Photo.findById(id, function(err, photo) {
+		if (err) return next(err);
+		var url = path.join(req.app.get("static"), photo.path);
+		res.download(url, photo.name + ".jpg");
+	});
+});
 module.exports = router;
