@@ -3,6 +3,7 @@ var path = require("path");
 var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
+var session = require("express-session");
 var bodyParser = require("body-parser");
 var multer = require("multer");
 var swig = require("swig");
@@ -36,7 +37,13 @@ app.use(bodyParser.urlencoded({
 app.use(multer());
 
 app.use(cookieParser());
-app.use(express.session());
+app.use(session({
+	secret: '12345',
+	name: 'testapp',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+	cookie: {maxAge: 80000 },  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+	resave: false,
+	saveUninitialized: true,
+}));
 //public下静态文件服务器
 app.use(express.static(path.join(__dirname, "public")));
 

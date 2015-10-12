@@ -21,18 +21,17 @@ register = {
 				res.redirect("back");
 			} else {
 				hashPass(data.pass, function(hash) {
-					User.creat({
+					User.create({
 						name: data.name,
-						pass: hash
+						password: hash
 					}, function(err) {
 						if (err) return next(err);
-						req.session.uid = user.id;
-						res.redirect("/");
+						req.session.uid = user.name;
+						res.redirect("/login");
 					});
 				});
 			}
 		});
-		next();
 	}
 };
 
@@ -44,18 +43,16 @@ login = {
 	},
 	submit: function(req, res, next) {
 		var data = req.body.user;
-		hashPass(data.pass, function(hash) {
-			User.find({
-				name: data.name,
-				pass: hash
-			}, function(err, user) {
-				if (err) return next(err);
-				if (user) {
-					req.session.uid = user.id;
+		User.find({
+			name: data.name,
+		}, function(err, user) {
+			if (err) return next(err);
+			hashCheck(data.pass, user[0].password, function(ok) {
+				if(ok) {
+					req.session.uid = user.name;
 					res.redirect("/");
 				} else {
-					res.error("Sorry!");
-					res.redirect("back");
+					res.redirect("/login");
 				}
 			});
 		});
@@ -70,12 +67,18 @@ login = {
 
 
 function hashPass(pass, fn) {
-	bcrypt.genSalt(12, function(err, salt) {
+	bcrypt.genSalt(10, function(err, salt) {
 		if (err) return fn(err);
 		bcrypt.hash(pass, salt, function(err, hash) {
 			if (err) return fn(err);
 			fn(hash);
 		});
+	});
+}
+function hashCheck(input, hash, fn) {
+	bcrypt.compare(input, hash, function(err, res) {
+    	if (err) return fn(err);
+    	fn(res);
 	});
 }
 
