@@ -1,5 +1,4 @@
 var db = require("mongoose");
-var bcrypt = require("bcrypt");
 db.connect("mongodb://localhost/say_data");
 
 var schema = new db.Schema({
@@ -9,8 +8,4 @@ var schema = new db.Schema({
 
 var User = db.model("User", schema);
 
-User.prototype = {
-	save: function(fn) {
-		if (this.id)
-	},
-}
+module.exports = User;

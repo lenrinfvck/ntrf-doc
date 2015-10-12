@@ -14,7 +14,7 @@
 		"morgan": "~1.6.1",
 		"multer": "^0.1.8",
 		"serve-favicon": "~2.3.0",
-		"bcrypt": "0.7.3",
+		"bcryptjs": "*",
 		"swig": "*"
 	}
 }

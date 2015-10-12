@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+	{% parent %}
+    <link rel="stylesheet" href="css/user.css">
+{% endblock %}
+
+{% block content %}
+	<p>login page</p>
+	{% include "widget/msg.html" %}
+	<form action="/login" method="post">
+		<p>
+			<input type="text" name="user[name]" placeholder="Username" />
+		</p>
+		<p>
+			<input type="password" name="user[pass]" placeholder="Password" />
+		</p>
+		<p>
+			<input type="submit" value="Sign In" />
+		</p>
+	</form>
+{% endblock %}

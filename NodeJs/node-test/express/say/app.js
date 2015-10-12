@@ -33,11 +33,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-app.use(multer({
-	dest: app.get("photos")
-}));
+app.use(multer());
 
 app.use(cookieParser());
+app.use(express.session());
 //public下静态文件服务器
 app.use(express.static(path.join(__dirname, "public")));
 
