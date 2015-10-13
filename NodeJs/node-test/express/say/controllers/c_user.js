@@ -37,6 +37,7 @@ register = {
 
 login = {
 	form: function(req, res, next) {
+		console.log(req.session.uid);
 		res.render("login", {
 			title: "login"
 		});
@@ -47,9 +48,10 @@ login = {
 			name: data.name,
 		}, function(err, user) {
 			if (err) return next(err);
+			if (user.length <= 0) return next(err);
 			hashCheck(data.pass, user[0].password, function(ok) {
-				if(ok) {
-					req.session.uid = user.name;
+				if (ok) {
+					req.session.uid = user[0].name;
 					res.redirect("/");
 				} else {
 					res.redirect("/login");
@@ -75,10 +77,11 @@ function hashPass(pass, fn) {
 		});
 	});
 }
+
 function hashCheck(input, hash, fn) {
 	bcrypt.compare(input, hash, function(err, res) {
-    	if (err) return fn(err);
-    	fn(res);
+		if (err) return fn(err);
+		fn(res);
 	});
 }
 

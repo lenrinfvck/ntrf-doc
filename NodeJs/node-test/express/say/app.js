@@ -27,7 +27,7 @@ if ("development" == app.get("env")) {
 app.set("static", path.join(__dirname, "public"));
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.set("port", process.env.PORT || 3000);
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -39,10 +39,13 @@ app.use(multer());
 app.use(cookieParser());
 app.use(session({
 	secret: '12345',
-	name: 'testapp',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
-	cookie: {maxAge: 80000 },  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
-	resave: false,
-	saveUninitialized: true,
+	name: 'testapp', //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+	cookie: {
+		maxAge: 80000
+	}
+	/*, //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+		resave: true,
+		saveUninitialized: true,*/
 }));
 //public下静态文件服务器
 app.use(express.static(path.join(__dirname, "public")));
