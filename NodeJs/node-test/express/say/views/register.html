@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block content %}
-	<p>register page</p>
-	{% include "widget/msg.html" %}
+	{% include 'widget/nav_login.html' %}
+
+	<h2>register page</h2>
 	<form action="/register" method="post">
 		<p>
 			<input type="text" name="user[name]" placeholder="Username" />
