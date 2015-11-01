@@ -10,4 +10,28 @@
 	<h2>Homepage</h2>
 	<p>welcome {{ locals.user }}</p>
 
+    {% include 'entries.html' %}
+
+
+{% macro pagecon(i, all) %}
+    {% if !i %}
+        {% set i = 1 %}
+    {% endif %}
+    {% if i <= all %}
+        <a href="/?page={{i}}">
+            {% if i == page %}
+                curr
+            {% else %}
+                {{i}}
+            {% endif %}
+        </a>&nbsp;
+        {% set i = i+1 %}
+        {{ pagecon(i, all) }}
+    {% endif %}
+{% endmacro%}
+
+    <p>
+        {{ pagecon(1, allpage) }}
+    </p>
+
 {% endblock %}

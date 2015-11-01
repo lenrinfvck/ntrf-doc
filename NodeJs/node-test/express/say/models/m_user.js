@@ -1,5 +1,4 @@
-var db = require("mongoose");
-db.connect("mongodb://localhost/say_data");
+var db = require("../my_modules/mongoose");
 
 var schema = new db.Schema({
 	name: String,
