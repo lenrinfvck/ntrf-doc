@@ -27,6 +27,7 @@ register = {
 					}, function(err) {
 						if (err) return next(err);
 						req.session.uid = user.name;
+						req.session.user = user;
 						res.redirect("/login");
 					});
 				});
@@ -37,7 +38,6 @@ register = {
 
 login = {
 	form: function(req, res, next) {
-		console.log(req.session.uid);
 		res.render("login", {
 			title: "login"
 		});
@@ -52,6 +52,7 @@ login = {
 			hashCheck(data.pass, user[0].password, function(ok) {
 				if (ok) {
 					req.session.uid = user[0].name;
+					req.session.user = user[0];
 					res.redirect("/");
 				} else {
 					res.redirect("/login");

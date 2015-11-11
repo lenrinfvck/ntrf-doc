@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    {% parent %}
+    <title>{{msg}}</title>
+    <link rel="stylesheet" href="css/user.css">
+{% endblock %}
+
+{% block content %}
+    {% include 'widget/nav_login.html' %}
+
+    <h2>{{ status }}</h2>
+    
+{% endblock %}

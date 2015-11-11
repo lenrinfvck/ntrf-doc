@@ -1,6 +1,6 @@
 {% if locals.user %}
 <div class="nav_login">
-	<span class="u_name">[ {{ locals.user }} ]</span>
+	<span class="u_name">[<a href="/api/user/{{ locals.user }}">{{ locals.user }}</a> ]</span>
 	<a href="/post">post</a>
 	<a href="/logout">logout</a>
 </div>

@@ -10,6 +10,7 @@ var swig = require("swig");
 var http = require("http");
 
 var routes = require("./all_routes");
+var other = require("./controllers/other");
 
 var app = express();
 
@@ -21,6 +22,15 @@ if ("development" == app.get("env")) {
 	app.set("view cache", false);
 	swig.setDefaults({
 		cache: false
+	});
+}
+
+//测试5xx错误
+if (process.env.ERROR_ROUTE) {
+	app.get("/error", function(req, res, next) {
+		var err = new Error("baka miss");
+		err.type = "db";
+		next(err);
 	});
 }
 
@@ -53,6 +63,10 @@ app.use(express.static(path.join(__dirname, "public")));
 //路由注册
 app.use("/", routes);
 
+//404
+app.use(other.notfound);
+app.use(other.error);
+
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 // 	var err = new Error("Not Found");
@@ -76,13 +90,14 @@ if (app.get("env") === "dev") {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-	res.status(err.status || 500);
-	res.render("error", {
-		message: err.message,
-		error: {}
-	});
-});
+
+// app.use(function(err, req, res, next) {
+// 	res.status(err.status || 500);
+// 	res.render("error", {
+// 		message: err.message,
+// 		error: {}
+// 	});
+// });
 
 http.createServer(app).listen(app.get("port"), function() {
 	console.log("Express server listening on port");

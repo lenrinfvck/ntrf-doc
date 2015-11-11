@@ -10,11 +10,11 @@ exports.list = function(req, res, next) {
     });
 };
 
-exports.form = function(req, res) {
+exports.form = function(req, res, next) {
     res.render("post");
 };
 
-exports.submit = function(req, res) {
+exports.submit = function(req, res, next) {
     var data = req.body.entry;
 
     var entry = new Entry({
