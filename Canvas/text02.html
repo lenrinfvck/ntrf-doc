@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas-Time</title>
+	<style>
+		body,html{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<script src="digit.js"></script>
+<script>
+	var W = 1024;
+	var H = 768;
+	var R = 5;
+
+	window.onload = function() {
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d"); //绘图上下文
+		
+		//修改绘图区域
+		canvas.width = W;
+		canvas.height = H;
+
+		render(context);
+	}
+
+	function render(cxt) {
+		var hour = 12;
+		var min = 34;
+		var sec = 56;
+		renderDigit(100, 100, parseInt(hour/10), cxt);
+		renderDigit(100 + 15*(R+1), 100, parseInt(hour%10), cxt);
+
+		renderDigit(100 + 30*(R+1), 100, 10, cxt);
+
+		renderDigit(100 + 45*(R+1), 100, parseInt(min/10), cxt);
+		renderDigit(100 + 60*(R+1), 100, parseInt(min%10), cxt);
+
+		renderDigit(100 + 75*(R+1), 100, 10, cxt);
+
+		renderDigit(100 + 90*(R+1), 100, parseInt(sec/10), cxt);
+		renderDigit(100 + 105*(R+1), 100, parseInt(sec%10), cxt);
+	}
+
+	function renderDigit(x, y, num, cxt) {
+		cxt.fillStyle = "rgb(0, 102, 153)";
+		for(var i = 0; i < digit[num].length; i++) {
+			for(var j = 0; j < digit[num][i].length; j++) {
+				if(digit[num][i][j] === 1) {
+					var px = x+j*2*(R+1)+(R+1);
+					var py = y+i*2*(R+1)+(R+1);
+					cxt.beginPath();
+					cxt.arc(px, py, R, 0, 2*Math.PI);
+					cxt.closePath();
+
+					cxt.fill();
+				}
+			}
+		}
+	}
+</script>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>
