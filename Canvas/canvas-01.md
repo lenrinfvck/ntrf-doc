@@ -19,7 +19,19 @@
 ---  | ---
 .strokeStyle = "#000"   | 描边颜色
 .lineWidth = 5      | 描边宽度
+.lineCap = butt/round/square    | 线段头，round圆头尾，square方头尾(只作用于整段路径的头尾)
+.lineJoin = miter/bevel/round   | 线条相接处样式，miter默认衍生锐化，bevel不衍生直接折叠，round圆角转折
+.miterLimit = 10    | 如果miter衔接长度超过limit就采用bevel
 .fillStyle = "#000" | 填充颜色
+
+>颜色支持：
+>   #fff
+>   #642
+>   rgb(r, g, b)
+>   rgba(r, g, b, a)
+>   hsl()
+>   hsla()
+>   red
 
 #####context方法
 api | 功能
@@ -42,5 +54,25 @@ startingAngle | 初始角度(0时为坐标向右方向), 默认单位和pi，1pi
 endingAngle | 结束角度
 anticlockwis = false | 默认为顺时针，true为逆时针
 
+####[矩形绘制]
+api | 功能
+--- | ---
+.rect(x, y, width, height)   | 绘制矩形路径
+.fillRect(x, y, w, h)   | 绘制填充矩形
+.strokeRect(x, y, w, h) | 绘制描边矩形
 
 
+####[图形变换]
+api | 功能
+--- | ---
+.translate(x, y)    | 位移,会叠加，可用.save()和.restore()读取无位移的时的状态
+.rotate(deg)        | 旋转
+.scale(sx, sy)      | 缩放
+.transform(a, b, c, d, e, f)    | 矩阵变换
+
+> a c e
+> d d f
+> 0 0 1
+> a,d 水平、垂直缩放
+> b,c 水平、垂直倾斜
+> e,f 水平、垂直位移

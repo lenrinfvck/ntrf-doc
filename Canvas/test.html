@@ -10,7 +10,7 @@
 		}
 	</style>
 </head>
-<body>
+<body>	
 	<canvas id="canvas" width="800" height="600" style="boder:1px solid #000;">
 		当浏览器不支持时
 	</canvas>
@@ -46,6 +46,18 @@
 			context.beginPath();
 			context.arc(600, 100, 60, 0, 1.5, true);
 			context.stroke();
+
+			context.beginPath();
+			context.strokeStyle = "#000";
+			context.fillStyle = "#F00";
+			context.fillRect(0, 0, 200, 200);
+			context.strokeRect(0, 0, 200, 200);
+
+			context.beginPath();
+			context.strokeStyle = "#000";
+			context.fillStyle = "rgba(0,150,0,0.5)";
+			context.fillRect(100, 100, 300, 300);
+			context.strokeRect(100, 100, 300, 300);
 		}
 	</script>
 </body>
