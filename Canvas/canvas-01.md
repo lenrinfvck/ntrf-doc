@@ -15,14 +15,14 @@
 
 ####[直线绘制]
 #####context属性
-属性 | 内容
+线属性 | 内容
 ---  | ---
 .strokeStyle = "#000"   | 描边颜色
 .lineWidth = 5      | 描边宽度
 .lineCap = butt/round/square    | 线段头，round圆头尾，square方头尾(只作用于整段路径的头尾)
 .lineJoin = miter/bevel/round   | 线条相接处样式，miter默认衍生锐化，bevel不衍生直接折叠，round圆角转折
 .miterLimit = 10    | 如果miter衔接长度超过limit就采用bevel
-.fillStyle = "#000" | 填充颜色
+
 
 >颜色支持：
 >   #fff
@@ -61,6 +61,10 @@ api | 功能
 .fillRect(x, y, w, h)   | 绘制填充矩形
 .strokeRect(x, y, w, h) | 绘制描边矩形
 
+`context.arcTo(x1, y1, x2, y2, radius);`
+相切于起点与1、2点的2条直线的圆弧，可以理解为将一个半径为rdius的圆移动至这两线夹角处直到卡住。  
+两线类似于这段弧的两个贝塞尔控制柄，交点为控制点。
+
 
 ####[图形变换]
 api | 功能
@@ -69,6 +73,7 @@ api | 功能
 .rotate(deg)        | 旋转
 .scale(sx, sy)      | 缩放
 .transform(a, b, c, d, e, f)    | 矩阵变换
+.setTransform(a, b, c, d, e, f) | 清除之前的矩阵变换，再进行设置的值变换
 
 > a c e
 > d d f
@@ -76,3 +81,82 @@ api | 功能
 > a,d 水平、垂直缩放
 > b,c 水平、垂直倾斜
 > e,f 水平、垂直位移
+
+####[fillStyle]填充渐变和图片
+值 | 效果
+\#000（颜色值）   | 纯色填充
+linearGrad      | 渐变
+
+#####渐变书写方式
+```js
+//线性渐变
+var linearGrad = context.LinearGrandient(x1, y1, x2, y2);
+linearGrad.addColorStop(0.0, "white");
+linearGrad.addColorStop(0.3, "yellow");
+linearGrad.addColorStop(1.0, "green");
+context.fillStyle = linearGrad;
+context.fillRect(0, 0, 800, 800);
+```
+
+```js
+//径向渐变
+//r0为0时为点向外的径向渐变
+var grd = context.createRadialGradient(x0, y0, r0, x1, y1, r1);
+grd.addColorStop(0.0, "white");
+grd.addColorStop(0.4, "yellow");
+context.fillStyle = radiaGrad;
+context.fillRect(0, 0, 800, 800);
+```
+
+```js
+//图片填充(canvas/Image/video, repeat-style);
+//可以用图片或canvas填充，repeat有no-repeat/repeat-x/repeat-y/repeat
+var bgImage = new Image();
+bgImage.src = "../image/xxx.jpg";
+bgImage.onload = function() {
+    var bg = context.createPattern(bgImage, "no-repeat");
+    context.fillStyle = pattern;
+    conrext.fillRect(0, 0, 800, 800);
+}
+```
+
+####贝塞尔
+演示连接:[http://tinyurl.com/html5bezier](http://tinyurl.com/html5bezier)  
+
+#####二次贝塞尔
+```js
+    context.moveTo(x0, y0);
+    context.quadraticCurveTo(x1, y1, x2, y2);
+```
+
+#####三次贝塞尔
+```js
+    context.moveTo(x0, y0);
+    context.bezeirCurveTo(x1, y1, x2, y2, x3, y3);
+```
+
+####[文字渲染]
+#####文字基本属性
+```js
+    //font = font-style font-variant font-weight font-size font-family
+    //variant = normal/small-caps    samllcaps会把小写字母换成小号的大写字母
+    context.font = "bold 40px Arial"; /*默认 为20px sans-serif*/
+    context.fillStyle = "#058";
+    //string - 字符串
+    //x，y - 文字输出起始位置
+    //maxlen - 文字最长占位，超出时会压缩文字宽度
+    context.fillText(string, x, y, [maxlen]);
+    context.strokeText(string, x, y, [maxlen]);
+```
+
+#####textAlign
+`context.textAlign()`
+
+
+
+
+
+
+
+
+
