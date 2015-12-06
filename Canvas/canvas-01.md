@@ -151,10 +151,51 @@ bgImage.onload = function() {
 
 #####textAlign
 `context.textAlign()`
+---|---
+left | 绘制位置左对齐
+center | 绘制位置为文本中线，居中
+rigth | 绘制位置右对齐
 
+#####textBaseline
+`context.textBaseline`
+---|---
+top | 绘制位置为文字的top线
+middle | 绘制位置为文字的middle线
+bottom | 绘制位置为文字的bottom线
 
+#####measureText(string).width
+`ctx.measureText(string).width` 计算该字符串渲染后的宽度
 
+####[阴影]
+设置属性后使用fill绘制时产生阴影
 
+--- | ---
+.shadowColor   | 阴影颜色
+.shadowOffsetX | x偏移量
+.shadowOffsetY | y偏移量
+.shadowBlur    | 羽化
+
+####[global]
+`globalAlpha = 1` 全局透明度
+
+`globalCompositeOperation` 叠加模式（11种）
+--- | ---
+source-over | 后绘制的物体覆盖前面的
+destination-over | 先绘制的物体覆盖后面的
+lighter | 颜色叠加
+copy | 只绘制最后一个图
+xor | 异或, 重叠部分去除
+
+####[剪辑区域-clip]
+`context.clip()` 类似PS的选区
+
+```js
+    ctx.beginPath();
+    ctx.arc(400, 400, 150, 0, Math.PI*2);
+    context.clip();
+    //以下绘制会再arc得圆形路径范围内进行绘制
+    //直到遇到closePath或beginPath等路径规划方法
+```
 
 
 
