@@ -197,7 +197,22 @@ xor | 异或, 重叠部分去除
     //直到遇到closePath或beginPath等路径规划方法
 ```
 
+####[绘制圆环]
+非零环绕原则，两个圆路径，一个顺时针方向，一个是逆时针，fill时为圆环。  
+用这种方式可以绘制镂空的路径。  
 
 
+####[交互]
+`ctx.isPointInPath(x, y)`传入点，判断该店是否在当前状态路径之内。
 
 
+###Prototype
+`CanvasRenderingContext2D.prototype` 注册context方法，this代表context实例  
+
+###兼容性
+**ie6 - ie8** explorercanvas
+
+###Canvas图形库
+-canvasplus
+-Artisan JS
+-Rgraph
