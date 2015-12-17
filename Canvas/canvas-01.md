@@ -216,3 +216,10 @@ xor | 异或, 重叠部分去除
 -canvasplus
 -Artisan JS
 -Rgraph
+
+
+###图像处理 - 滤镜
+`ctx.getImageData(x, y, w, h)` 获取区域的图像信息
+`ctx.putImageData(imageData, x, y, dirX, dirY, dirW, dirH)`将处理后的imagedata添加到画面
+
+`ctx.createImageData(w, h)` 创建imageData
