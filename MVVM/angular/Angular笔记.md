@@ -12,6 +12,10 @@ angular.module('todoApp', [])
     }])
     .controller('Ctrl2', ...)
 ```
+##### 1.1.1 模块相关方法  
++ `.run(cb)` 在该模块和相关依赖模块加载完后执行的回调  
++ `.config(cb)` 在该当前模块加载后调用  
++ `.name` 返回注册时的模块名  
 
 #### 1.2路由
 原生写法案例：  
@@ -161,6 +165,10 @@ $scope.pageClass="hello";
     }
 }
 ```
+#### 2.5 scope相关  
++ `angular.element("[ng-controller=xxx").scope()` 基于选择器方式获取  
++ `$rootScope`是ng-app顶级的作用域，或则使用`angular.bootstrap(dom/jqdom, [依赖的模块名])`方法手动加载ng时的那个DOM  
+
 
 ### 3.指令
 #### 3.1 基本案例
@@ -268,6 +276,7 @@ myModule.dirctive("strength", function() {
 ```
 
 #### 3.5 scope绑定策略
+主要用于父级ctrl和子级的指令数据共享  
 ```js
 scope: {
     a: '@', //内部scope的a值绑定到标签属性对应的字符串，该属性有b="{{flavor}}"
@@ -386,6 +395,22 @@ myModule.filter('filter1', function() {
 });
 ```
 
+### 5. 高级
+#### 5.1 控制器，指令之间通信  
+##### 父级控制器和子控制器
++ $scope作用域继承原则，子集可以访问父级属性  
++ 子可使用`$emit(eventName, args)`传递事件，父可用`$on(eventName, cb)`来监听，会依照scope层级冒泡  
++ 父级可以使用`$broadcast(e, args)`广播给子集
+
+##### 父级控制器和子级指令
+使用指令的内部scope的绑定策略，暴露属性给父级方便绑定  
+
+##### 通用Service
+创建的service, factory, provider都是单例的，数据可共享
+
+#### 5.2 控制器的创建原理  
+`module.controller(name, fn(){})`方式注册控制器，这是一个工厂方法，当ng初始化时查看到view中的ng-controller属性时再到ng上下文中去调用注册的好的ctrl去实例化一个对应的controller对象，该对象中的scope是独立的，如此，同一个模板上的相同controller的scope是相互独立的。  
+
 
 ### .ERP类系统常用ui组件
 + Form
@@ -393,5 +418,4 @@ myModule.filter('filter1', function() {
 + FileUpload
 + Tree
 + DataGrid[ng-grid]
-
 
