@@ -1,4 +1,8 @@
 # webpack简要使用
+>[Webpack 中文指南](http://zhaoda.net/webpack-handbook/index.html)  
+>[Webpack 入门](http://www.cnblogs.com/vajoy/p/4650467.html)  
+>[Webpack 使用经验](http://www.cnblogs.com/giveiris/p/5237080.html)  
+
 ### 1.安装命令行
 `$ npm install webpack -g` 全局命令行
 `$ npm install webpack --save-dev` 工程内用
