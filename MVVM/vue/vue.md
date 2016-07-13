@@ -91,6 +91,10 @@ HTML字符串
 <a @click="doSomething"></a> //事件缩写用@
 ```
 
+keep-alive  
+`<component :is='curremtView' keep-alive></component>`  
+如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个keep-alive指令
+
 ### 三.计算属性
 当某个数据需要根据其他数据而改变结果时，可以使用计算属性  
 ```js
@@ -401,6 +405,32 @@ var Parent = Vue.extend({
 });
 ```
 
+也可以结合webpack封装成.vue的组件  
+```html
+<script>
+    export default {
+        props: ['cardProp']
+    };
+</script>
+
+<template>
+    <div class="card-con">
+        <div>
+            //img时src最好使用v-bind这种形式，{{}}插值可能报错
+            <img class="card-img" :src="cardProp.url" :alt="cardProp.name" :tilte="cardProp.name" />
+        </div>
+    </div>
+</template>
+
+// <style scoped></style> 添加scoped后该样式不会全局生效
+
+<style lang="less">
+    .card-img {
+        width: 100%;
+    }
+</style>
+```
+
 #### data和el属性不宜直接使用Vue.extend
 ```js
 var MyComponent = Vue.extend({
@@ -419,7 +449,7 @@ var MyComponent = Vue.extend({
 ```
 
 #### props子组件属性
-```js
+```html
 Vue.component('child', {
   // 声明 props
   props: ['msg', 'myMsg'],
@@ -485,7 +515,7 @@ Vue.component('example', {
 + `$dispatch()` 派发事件，事件沿着父链冒泡  
 + `$broadcast()` 广播事件，传递给后代
 + 冒泡时触发回调会停止冒泡，除非返回true  
-```js
+```html
 Vue.component('child', {
   template: '#child-template',
   data: function () {
@@ -532,7 +562,7 @@ var child = parent.$refs.profile
 
 ### 九.自定义
 #### 自定义指令
-```js
+```html
 Vue.directive('my-directive', {
   bind: function () {
     // 准备工作
@@ -556,7 +586,7 @@ Vue.directive('my-directive', function (value) {
 })
 ```
 标签指令
-```js
+```html
 Vue.elementDirective('my-directive', {
   // API 同普通指令
   bind: function () {
@@ -567,7 +597,7 @@ Vue.elementDirective('my-directive', {
 ```
 
 #### 自定义过滤器
-```js
+```html
 Vue.filter('reverse', function (value) {
   return value.split('').reverse().join('')
 });

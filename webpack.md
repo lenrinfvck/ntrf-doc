@@ -212,7 +212,11 @@ module.exports = {
     new webpack.BannerPlugin('This file is created by ntrf' + (new Date()).getTime()),
     //提取多个入口文件的公共脚本生成一个common.js
     commonsPlugin
-  ]
+  ],
+  //使用全局变量作为模块，如事先引入的类库
+  externals: {
+    'jquery': 'jQuery'
+  }
 }
 ```
 
