@@ -66,6 +66,17 @@ HTML字符串
 ```
 
 ##### 过滤器
+API: [http://vuejs.org.cn/api/#limitBy](http://vuejs.org.cn/api/#limitBy)  
++ capitalize 首字母大写  
++ uppercase 大写  
++ lowercase 小写  
++ currency 单位  
++ json 用JSON.stringify()处理({{ nestedObject | json 4 }})  
++ debounce 延迟执行，在事件绑定使用  
++ limitBy 剪切数组  
++ filterBy 简单赛选  
++ orderBy 排序  
+
 基本写法如下:  
 ```js
 {{ message | capitalize }}
