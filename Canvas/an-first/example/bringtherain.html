@@ -11,34 +11,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="authoring-tool" content="Adobe_Animate_CC">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>index</title>
+<title>bringtherain</title>
 <!-- write your code here -->
-<script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js?1471962644975"></script>
-<script src="./libs/zepto.min.js"></script>
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="bringtherain.js?1471954953055"></script>
 <script>
 var canvas, stage, exportRoot;
 function init() {
 	canvas = document.getElementById("canvas");
-	images = images||{};
-	var loader = new createjs.LoadQueue(false);
-	loader.addEventListener("fileload", handleFileLoad);
-	loader.addEventListener("complete", handleComplete);
-	loader.loadManifest(lib.properties.manifest);
+	handleComplete();
 }
-function handleFileLoad(evt) {	
-	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }	
-}
-function handleComplete(evt) {
+function handleComplete() {
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
-	var queue = evt.target;
-	var ssMetadata = lib.ssMetadata;
-	for(i=0; i<ssMetadata.length; i++) {
-		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
-	}
-	exportRoot = new lib.Untitled1();
+	exportRoot = new lib.bringtherain();
 	stage = new createjs.Stage(canvas);
 	stage.addChild(exportRoot);
 	stage.enableMouseOver();	
@@ -79,36 +64,10 @@ function handleComplete(evt) {
 		}
 	})(false,'both',false,1);	
 }
-$(document).ready(function() {
-	$(window).resize(function(e) {
-		var scale = $(window).width()/640;
-		scale > 1 ? scale = 1 : scale = scale;
-		$('.page-con').css('transform', 'scale(' + scale + ')');
-	});
-	$(window).resize();
-})
 </script>
-
-<style>
- 	* {
- 		outline: none;
- 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
- 	}
-	.page-con {
-		width:  640px;
-		margin: 0 auto;
-		transform-origin: 0% 0%;
-	}
-	body {
-		height: 100%;
-		overflow-y: hidden;
-	}
-</style>
 <!-- write your code here -->
 </head>
 <body onload="init();" style="margin:0px;">
-<div class="page-con">
-	<canvas id="canvas" width="640" height="960" style="display: block; background-color:rgba(255, 255, 255, 1.00)"></canvas>
-</div>
+	<canvas id="canvas" width="747" height="420" style="display: block; background-color:rgba(0, 204, 255, 1.00)"></canvas>
 </body>
 </html>
