@@ -1,0 +1,17 @@
+body {
+	margin: 0;
+	padding: 20px 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #00B7FF;
+}
+
+.nav_login {
+	text-align: right;
+}
+
+.nav_login a {
+	padding-left: 10px;
+}

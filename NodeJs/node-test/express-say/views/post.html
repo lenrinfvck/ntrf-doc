@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    {% parent %}
+    <link rel="stylesheet" href="css/user.css">
+{% endblock %}
+
+{% block content %}
+    {% include 'widget/nav_login.html' %}
+    <h2>Postpage</h2>
+    
+    <form action="/post" method="post">
+        <p>
+            <span>Title:</span><input type="text" name="entry[title]" />
+        </p>
+        <p>
+            <span>Body:</span><input type="text" name="entry[body]" />
+        </p>
+        <p>
+            <input type="submit" />
+        </p>
+    </form>
+{% endblock %}

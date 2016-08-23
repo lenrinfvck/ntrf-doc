@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas</title>
+	<style>
+		body,html{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>	
+	<canvas id="canvas" width="800" height="600" style="boder:1px solid #000;">
+		当浏览器不支持时
+	</canvas>
+	<script>
+		window.onload = function() {
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext("2d"); //绘图上下文
+
+			//canvas兼容判断
+			if(canvas.getContext("2d")) {
+				console.log("支持canvas");
+			}
+			
+			//修改绘图区域
+			canvas.width = 800;
+			canvas.height = 600;
+			context.beginPath();
+			context.moveTo(100, 100);
+			context.lineTo(200, 300);
+			context.lineTo(100, 400);
+			context.lineTo(100, 100);
+			context.closePath();
+
+
+			context.strokeStyle = "#000";
+			context.fill();
+			context.stroke();
+
+			context.beginPath();
+			context.arc(300, 100, 60, 0, 1.5);
+			context.stroke();
+
+			context.beginPath();
+			context.arc(600, 100, 60, 0, 1.5, true);
+			context.stroke();
+
+			context.beginPath();
+			context.strokeStyle = "#000";
+			context.fillStyle = "#F00";
+			context.fillRect(0, 0, 200, 200);
+			context.strokeRect(0, 0, 200, 200);
+
+			context.beginPath();
+			context.strokeStyle = "#000";
+			context.fillStyle = "rgba(0,150,0,0.5)";
+			context.fillRect(100, 100, 300, 300);
+			context.strokeRect(100, 100, 300, 300);
+		}
+	</script>
+</body>
+</html>
