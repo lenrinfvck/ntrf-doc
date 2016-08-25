@@ -48,7 +48,7 @@ removed | 广播这个元素被删除
 tick | stage渲染时触发，重绘或则追加绘制时  
 
 ### Bitmap - 位图
-【构造函数】 `new BitMap(imageOrUri)`  
+【构造函数】 `new createjs.Bitmap(imageOrUri)`  
 `imageOrUri HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | String`  
   
 【私有属性方法】
@@ -56,7 +56,28 @@ tick | stage渲染时触发，重绘或则追加绘制时
 --- | --- 
 image | 存储的img对象或则canvas,video对象  
 
+### Graphics - 矢量对象
+【构造函数】 `new createjs.Graphics()`  
+创建后调用各种方法进行绘制。  
+待补充
 
+### Shape - 形状对象
+【构造函数】 `new createjs.Shape(Graphics)`  
+参数是一个矢量形状对象，由于Graphics只是纯粹提供矢量绘图。而Shape提供了一次包装，从而能使用DisplayObject中的对图形对象的一些基本操作。  
 
+### SpriteSheet - 雪碧图基类
+【构造函数】
+```js
+var data = {
+    images: ["sprites.jpg"],
+    frames: {width:50, height:50},
+    animations: {
+        stand:0,
+        run:[1,5],
+        jump:[6,8,"run"]
+    }
+};
+var spriteSheet = new createjs.SpriteSheet(data);
+```
 
 
