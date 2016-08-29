@@ -65,19 +65,85 @@ image | 存储的img对象或则canvas,video对象
 【构造函数】 `new createjs.Shape(Graphics)`  
 参数是一个矢量形状对象，由于Graphics只是纯粹提供矢量绘图。而Shape提供了一次包装，从而能使用DisplayObject中的对图形对象的一些基本操作。  
 
-### SpriteSheet - 雪碧图基类
+### SpriteSheet - 雪碧图基类、帧动画
+该对象理论上是一张关键帧动画的雪碧图的抽象类。  
 【构造函数】
 ```js
 var data = {
+    //images可为img的dom对象，或则URI路径
     images: ["sprites.jpg"],
+    /*控制每帧大小，等大帧，width, height, regX, regY 控制大小，
+        spacing为间隔, 
+        margin图像边缘,
+        count帧数，缺省时会自动计算
+      非等大帧时使用x, y, width, height, imageIndex*, regX*, regY*的复数数组
+    */
     frames: {width:50, height:50},
+    /*可以设置各种动画，动画名:[帧索引]的键值对
+        1. 值为Number，表示为单帧动画.
+        2. Array，[start, end, next, speed]，next为动画名，speed是速度倍数.
+        3. Object， 如下，帧为任意单帧的集合，也支持next，speed.
+    */
     animations: {
         stand:0,
         run:[1,5],
-        jump:[6,8,"run"]
-    }
+        jump:[6,8,"run"],
+        walk: {
+            frames: [1,2,3,3,2,1]
+        },
+        shoot: {
+            frames: [1,4,5,6],
+            next: "walk",
+            speed: 0.5
+        }
+    },
+    //帧率
+    framerate: 20
 };
 var spriteSheet = new createjs.SpriteSheet(data);
 ```
+
+【属性方法】
+名称 | 描述  
+--- | ---  
+complete | boolean，表示图片是否加载完成  
+framerate, animations | 如上构造函数中的属性  
+getFrame(index) | 获取存储了某一帧的对象字段  
+getFrameBounds(index, [rect]) | 返回某一帧的碰撞面积的一个矩形对象  
+getNumFrames(animation) | 返回某动画的总帧数  
+getAnimation(name) | 通过动画名获取其配置对象  
+
+### Sprite- 雪碧图展示类
+【构造函数】 `new createjs.Shape(spriteSheet)`  
+实际超控雪碧图帧动画的播放，和在画布上的各种行为。  
+默认展示第一帧。  
+
+【属性方法】
+名称 | 描述  
+--- | ---  
+framerate | 帧率  
+spriteSheet | 雪碧图基类实例  
+paused | boolean(false)，设为true时默认不会播放动画  
+currentFrame | 获取当前帧序号，相对于全雪碧图  
+currentAnimation | 当前播放的动画的名字  
+currentAnimationFrame | 当前播放的帧在当前动画中第几帧  
+advance([time]) | ???  
+.play()/.stop() | 开始播放当前动画  
+.gotoAndStop(frame/name)/.gotoAndPlay() | 移动到某帧或则某动画并播放和停止 
+
+【Evnet】
+事件 | 描述
+--- | ---
+change   | currentFrame被修改时，正常播放和调用gotoAndPlay之类的    
+animationend | 当前动画播放完毕  
+
+### Text- 文字类
+【构造函数】 `new createjs.Text("Hello World", "20px Arial", "#ff7700")`    
+一个文本只支持一种字体样式，字体必须在绘制前加载，尽量缓存文本实例。  
+
+
+
+
+
 
 
