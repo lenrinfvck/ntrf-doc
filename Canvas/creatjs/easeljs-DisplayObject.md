@@ -1,8 +1,9 @@
 # EaselJs - DIsplayObject相关笔记
+EaselJs主要负责对画布元素的抽象，定义各种对象，管理画布
 >官方文档：[中文文档](http://www.createjs.cc/easeljs/docs/modules/EaselJS.html)  
 
 ### 绘图流程
-创建舞台，容器 -> 创建`DisplayObject`相关实例并添加
+创建舞台，容器 -> 创建`DisplayObject`相关实例并添加进舞台
 
 ### DisplayObject - 展示元素基类
 【Props】
@@ -113,7 +114,7 @@ getFrameBounds(index, [rect]) | 返回某一帧的碰撞面积的一个矩形对
 getNumFrames(animation) | 返回某动画的总帧数  
 getAnimation(name) | 通过动画名获取其配置对象  
 
-### Sprite- 雪碧图展示类
+### Sprite - 雪碧图展示类
 【构造函数】 `new createjs.Shape(spriteSheet)`  
 实际超控雪碧图帧动画的播放，和在画布上的各种行为。  
 默认展示第一帧。  
@@ -137,7 +138,7 @@ advance([time]) | ???
 change   | currentFrame被修改时，正常播放和调用gotoAndPlay之类的    
 animationend | 当前动画播放完毕  
 
-### Text- 文字类
+### Text - 文字类
 【构造函数】 `new createjs.Text("Hello World", "20px Arial", "#ff7700")`    
 一个文本只支持一种字体样式，字体必须在绘制前加载，尽量缓存文本实例。  
 
@@ -152,7 +153,7 @@ textBaseline | 基线
 lineHeight/lineWidth | 行高，行宽
 .getMetrics() | 返回width，height，行相关数组数据  
 
-### Container- 容器
+### Container - 容器
 【构造函数】 `new createjs.Container()`  
 分组，预合成，类似外面套一层div。也类似与div，容器也有一定多余消耗，最好不要用于包括一个子集。  
 
@@ -178,7 +179,7 @@ numChildren | Number(readOnly) | 返回子集数
 .cloneChildren(container) | 克隆所有子节点并添加到其他container 
 .removeAllChildren() | 移除所有子节点 
 
-### DOMElement- DOM图层
+### DOMElement - DOM图层
 【构造函数】 `new createjs.DOMElement(htmlElement)`  
 把原生dom对象封装成DisplayObj类型  
 
@@ -187,7 +188,7 @@ numChildren | Number(readOnly) | 返回子集数
 --- | --- 
 htmlElement | 存取原生dom 
 
-### Stage- 舞台
+### Stage - 舞台
 【构造函数】 `createjs.Stage("canvasElementId")`  
 传入CanvasId来创建舞台，Stage继承自Container  
 
@@ -211,4 +212,25 @@ preventSelection | boolean，可以调用类似preventDefault()的效果
 --- | --- 
 drawstart/drawend | 每一帧绘制开始和结束  
 tickstart/tickend | 类似上面的draw，但tickend在drawend之前  
+
+### MovieClip - 剪辑对象
+【构造函数】 `new createjs.MovieClip(mode, start, loop, labels)`  
++ mode: INDEPENDENT(默认，独立播放), SINGLE_FRAME(静帧), SYNCHED(同步播放)  
++ start: 开始帧  
++ loop: 是否循环  
++ labels: (obj) 标签与对应帧的键值对，如`{start: 20}`  
+
+【属性】
+名称 | 描述  
+--- | ---  
+autoReset | boolean, true时在默认模式下，播放完后跳到第一帧  
+startPostion | number, 起始帧  
+currentFrame/currentLabel | number/string, 当前帧/当前标签  
+paused | boolean, 可设置为true，暂停播放  
+duration | number, 此剪辑对象的总秒或帧数  
+
+【方法】
+方法  
+.play()/.stop() | 播放, 暂停  
+.gotoAndPlay(index)/.gotAndStop(index) | 前往某帧并播放、暂停
 
