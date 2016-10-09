@@ -1,8 +1,9 @@
 # EaselJs 笔记
+主要负责对画布元素的抽象，定义各种对象，管理画布
 >官方文档：[中文文档](http://www.createjs.cc/easeljs/docs/modules/EaselJS.html)  
 
 ### 绘图流程
-创建舞台，容器 -> 创建`DisplayObject`相关实例并添加
+创建舞台，容器 -> 创建`DisplayObject`相关实例并添加进舞台  
 
 ### DisplayObject - 展示元素基类
 【Props】
@@ -131,7 +132,7 @@ advance([time]) | ???
 .play()/.stop() | 开始播放当前动画  
 .gotoAndStop(frame/name)/.gotoAndPlay() | 移动到某帧或则某动画并播放和停止 
 
-【Evnet】
+【Event】
 事件 | 描述
 --- | ---
 change   | currentFrame被修改时，正常播放和调用gotoAndPlay之类的    
@@ -141,7 +142,26 @@ animationend | 当前动画播放完毕
 【构造函数】 `new createjs.Text("Hello World", "20px Arial", "#ff7700")`    
 一个文本只支持一种字体样式，字体必须在绘制前加载，尽量缓存文本实例。  
 
+### MovieClip- 剪辑对象
+【构造函数】 `new createjs.MovieClip(mode, start, loop, labels)`  
++ mode: INDEPENDENT(默认，独立播放), SINGLE_FRAME(静帧), SYNCHED(同步播放)  
++ start: 开始帧  
++ loop: 是否循环  
++ labels: (obj) 标签与对应帧的键值对，如`{start: 20}`  
 
+【属性】
+名称 | 描述  
+--- | ---  
+autoReset | boolean, true时在默认模式下，播放完后跳到第一帧  
+startPostion | number, 起始帧  
+currentFrame/currentLabel | number/string, 当前帧/当前标签  
+paused | boolean, 可设置为true，暂停播放  
+duration | number, 此剪辑对象的总秒或帧数  
+
+【方法】
+方法  
+.play()/.stop() | 播放, 暂停  
+.gotoAndPlay(index)/.gotAndStop(index) | 前往某帧并播放、暂停
 
 
 
