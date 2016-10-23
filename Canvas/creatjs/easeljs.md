@@ -6,9 +6,9 @@
 创建舞台，容器 -> 创建`DisplayObject`相关实例并添加进舞台  
 
 ### DisplayObject - 展示元素基类
-【Props】
-属性 | 限制 | 描述
---- | --- | ---
+###### 【Props】  
+属性 | 限制 | 描述  
+--- | --- | ---  
 alpha   | Number[0~1]   | 透明度  
 id      | Number        | 元素id  
 name    | String        | 元素名称  
@@ -24,9 +24,9 @@ shadow  | Obj[Shadow]   | 阴影
 hitArea | Obj[DisplayObject] | 点击区域  
 stage   | Obj[readOnly] | 返回添加进的那个stage实例，没有添加时为null  
 
-【Methods】
-方法 | 描述
---- | ---
+###### 【Methods】  
+方法 | 描述  
+--- | ---  
 addEventListener | 同原生  
 off/removeEventListener | 注销事件监听  
 on  | 能传递跟多可配置项的绑定事件  
@@ -39,9 +39,9 @@ setBounds(x, y, w, h) | Shape等无法获取，但可以设置
 globalToLocal(x, y) | 把全局坐标转换为相对于该实例的坐标  
 localToGloball(x, y) | 与上相反  
 
-【Events】
-事件 | 描述
---- | ---
+###### 【Events】  
+事件 | 描述  
+--- | ---  
 added   | 该元素被添加后触发  
 pressmove | mousedown后滑动时触发
 pressup | 滑动释放  
@@ -52,9 +52,9 @@ tick | stage渲染时触发，重绘或则追加绘制时
 【构造函数】 `new createjs.Bitmap(imageOrUri)`  
 `imageOrUri HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | String`  
   
-【私有属性方法】
-名称 | 描述
---- | --- 
+###### 【私有属性方法】  
+名称 | 描述  
+--- | ---   
 image | 存储的img对象或则canvas,video对象  
 
 ### Graphics - 矢量对象
@@ -68,7 +68,7 @@ image | 存储的img对象或则canvas,video对象
 
 ### SpriteSheet - 雪碧图基类、帧动画
 该对象理论上是一张关键帧动画的雪碧图的抽象类。  
-【构造函数】
+【构造函数】  
 ```js
 var data = {
     //images可为img的dom对象，或则URI路径
@@ -104,9 +104,9 @@ var data = {
 var spriteSheet = new createjs.SpriteSheet(data);
 ```
 
-【属性方法】
-名称 | 描述  
---- | ---  
+###### 【属性方法】  
+名称 | 描述   
+--- | ---    
 complete | boolean，表示图片是否加载完成  
 framerate, animations | 如上构造函数中的属性  
 getFrame(index) | 获取存储了某一帧的对象字段  
@@ -119,8 +119,8 @@ getAnimation(name) | 通过动画名获取其配置对象
 实际超控雪碧图帧动画的播放，和在画布上的各种行为。  
 默认展示第一帧。  
 
-【属性方法】
-名称 | 描述  
+###### 【属性方法】  
+名称 | 描述   
 --- | ---  
 framerate | 帧率  
 spriteSheet | 雪碧图基类实例  
@@ -132,9 +132,9 @@ advance([time]) | ???
 .play()/.stop() | 开始播放当前动画  
 .gotoAndStop(frame/name)/.gotoAndPlay() | 移动到某帧或则某动画并播放和停止 
 
-【Event】
-事件 | 描述
---- | ---
+###### 【Event】  
+事件 | 描述  
+--- | ---  
 change   | currentFrame被修改时，正常播放和调用gotoAndPlay之类的    
 animationend | 当前动画播放完毕  
 
@@ -149,7 +149,7 @@ animationend | 当前动画播放完毕
 + loop: 是否循环  
 + labels: (obj) 标签与对应帧的键值对，如`{start: 20}`  
 
-【属性】
+###### 【属性】  
 名称 | 描述  
 --- | ---  
 autoReset | boolean, true时在默认模式下，播放完后跳到第一帧  
@@ -158,8 +158,8 @@ currentFrame/currentLabel | number/string, 当前帧/当前标签
 paused | boolean, 可设置为true，暂停播放  
 duration | number, 此剪辑对象的总秒或帧数  
 
-【方法】
-方法  
+###### 【方法】  
+方法 | 描述  
 .play()/.stop() | 播放, 暂停  
 .gotoAndPlay(index)/.gotAndStop(index) | 前往某帧并播放、暂停
 
