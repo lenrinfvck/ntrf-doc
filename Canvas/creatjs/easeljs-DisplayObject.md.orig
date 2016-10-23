@@ -1,9 +1,9 @@
-# EaselJs 笔记
-主要负责对画布元素的抽象，定义各种对象，管理画布
+# EaselJs - DIsplayObject相关笔记
+EaselJs主要负责对画布元素的抽象，定义各种对象，管理画布
 >官方文档：[中文文档](http://www.createjs.cc/easeljs/docs/modules/EaselJS.html)  
 
 ### 绘图流程
-创建舞台，容器 -> 创建`DisplayObject`相关实例并添加进舞台  
+创建舞台，容器 -> 创建`DisplayObject`相关实例并添加进舞台
 
 ### DisplayObject - 展示元素基类
 ###### 【Props】  
@@ -114,7 +114,7 @@ getFrameBounds(index, [rect]) | 返回某一帧的碰撞面积的一个矩形对
 getNumFrames(animation) | 返回某动画的总帧数  
 getAnimation(name) | 通过动画名获取其配置对象  
 
-### Sprite- 雪碧图展示类
+### Sprite - 雪碧图展示类
 【构造函数】 `new createjs.Shape(spriteSheet)`  
 实际超控雪碧图帧动画的播放，和在画布上的各种行为。  
 默认展示第一帧。  
@@ -132,17 +132,94 @@ advance([time]) | ???
 .play()/.stop() | 开始播放当前动画  
 .gotoAndStop(frame/name)/.gotoAndPlay() | 移动到某帧或则某动画并播放和停止 
 
+<<<<<<< HEAD:Canvas/creatjs/easeljs.md
 ###### 【Event】  
 事件 | 描述  
 --- | ---  
+=======
+【Evnet】
+事件 | 描述
+--- | ---
+>>>>>>> 0f471d81f0a35dd51ce6fe9c15566eb12b23232e:Canvas/creatjs/easeljs-DisplayObject.md
 change   | currentFrame被修改时，正常播放和调用gotoAndPlay之类的    
 animationend | 当前动画播放完毕  
 
-### Text- 文字类
+### Text - 文字类
 【构造函数】 `new createjs.Text("Hello World", "20px Arial", "#ff7700")`    
 一个文本只支持一种字体样式，字体必须在绘制前加载，尽量缓存文本实例。  
 
-### MovieClip- 剪辑对象
+【属性方法】
+名称 | 描述  
+--- | ---  
+text/font/color | 对应构造函数，color支持CSS相关颜色，以及canvas的填充样式  
+maxWidth | 最大宽度  
+outline | 外边框大小
+textAlign | 支持"start", "end", "left", "right", "center" 
+textBaseline | 基线
+lineHeight/lineWidth | 行高，行宽
+.getMetrics() | 返回width，height，行相关数组数据  
+
+### Container - 容器
+【构造函数】 `new createjs.Container()`  
+分组，预合成，类似外面套一层div。也类似与div，容器也有一定多余消耗，最好不要用于包括一个子集。  
+
+【属性】
+名称 | 限制 |描述  
+--- | --- | --- 
+children | Array | 存储子节点   
+mouseChildren | Boolean(true) | false时点击子元素，点击事件会直接在容器触发   
+tickChildren | Boolean(true) | false时点击子元素，tick事件不触发到子集    
+numChildren | Number(readOnly) | 返回子集数 
+
+【方法】 
+名称 |描述  
+--- | --- 
+.addChild(child)/.removeChild(c) | 添加/删除DisplayObject子集 
+.swapChildren(child1, child2) | 替换某个子集 
+.contains(child) | 判断child是否是其子孙级，返回为Boolean 
+.getObjectsUnderPoint(x, y, [mode=0]) | 获取某点下的所有子集，其顺序由虚拟深度决定，mouseEnabled禁用时无法获取 
+.getChildByName(name)/.getChildAt(index) | 获取子节点 
+.getChildIndex(child) | 获取index 
+.sortChildren(fn(c1, c2, options)) | 类似.sort()，自定义排序规则 
+.addChildAt(c, index) | 定向添加子集到某序号处 
+.cloneChildren(container) | 克隆所有子节点并添加到其他container 
+.removeAllChildren() | 移除所有子节点 
+
+### DOMElement - DOM图层
+【构造函数】 `new createjs.DOMElement(htmlElement)`  
+把原生dom对象封装成DisplayObj类型  
+
+【属性】  
+名称 | 描述  
+--- | --- 
+htmlElement | 存取原生dom 
+
+### Stage - 舞台
+【构造函数】 `createjs.Stage("canvasElementId")`  
+传入CanvasId来创建舞台，Stage继承自Container  
+
+【属性方法】  
+名称 | 描述 
+--- | --- 
+autoClear | (true)默认为每一帧绘制前都清空舞台  
+canvas | 存储舞台canvas对象，可以重新赋值，但是注意禁用之前的舞台  
+drawRect | 设置绘制区域  
+mouseInBounds | boolean, 表示鼠标是否在舞台区域  
+mouseX, mouseY | 鼠标坐标 
+nextStage | 链表结构，设置另一个舞台，当主舞台有事件触发也传递给下一个舞台  
+preventSelection | boolean，可以调用类似preventDefault()的效果  
+.clear() | 清除舞台  
+.enableDOMEvents(boolean) | 开启或禁用事件  
+.update() | 刷新舞台，会触发tick事件  
+.toDataURL([bgColor], [mimeType="image/png"]) | 将舞台元素导出为base64的图片
+
+【事件】  
+名称 | 描述 
+--- | --- 
+drawstart/drawend | 每一帧绘制开始和结束  
+tickstart/tickend | 类似上面的draw，但tickend在drawend之前  
+
+### MovieClip - 剪辑对象
 【构造函数】 `new createjs.MovieClip(mode, start, loop, labels)`  
 + mode: INDEPENDENT(默认，独立播放), SINGLE_FRAME(静帧), SYNCHED(同步播放)  
 + start: 开始帧  
@@ -162,8 +239,4 @@ duration | number, 此剪辑对象的总秒或帧数
 方法 | 描述  
 .play()/.stop() | 播放, 暂停  
 .gotoAndPlay(index)/.gotAndStop(index) | 前往某帧并播放、暂停
-
-
-
-
 
