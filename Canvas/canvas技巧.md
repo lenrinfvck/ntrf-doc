@@ -11,3 +11,9 @@ myCanvas.height *= devicePixelRatio;
 myCanvas.style.width = String(myCanvas.width / devicePixelRatio) + "px";
 myCanvas.style.height = String(myCanvas.height / devicePixelRatio) + "px";
 ```
+
+### 不阻挡事件
+全屏飘雪时挡住下层DOM时  
+```css
+pointer-events: none;
+```
