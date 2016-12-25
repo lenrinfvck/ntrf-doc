@@ -17,5 +17,38 @@ particleSystem = new particlejs.ParticleSystem();
 stage.addChild(particleSystem.container);
 ```
 
+[Emitter]  
++ emitFrequency 每秒发射数  
++ initialDirection/initialDirectionVariance 发射方向及变化值  
++ initialSpeed/initialSpeedVariance 发射速度和变化值  
++ startX/startY 发射器的中心坐标
++ startXVariance/startYVariance 发射器大小  
+
+[particle]  
++ alphaCurveType 设置透明度变化时的渐变规则，normal为线性，random为抖动  
++ finishAlpha/finishAlphaVariance 结束透明度和变化值  
++ finishScale/finishScaleVariance 结束大小  
++ lifeSpan/lifeSpanVariance 生命周期(帧)  
++ shapeIdList 所要使用的内置的粒子id组成的数组  
++ startAlpha/startAlphaVariance 开始透明度  
++ startColor 开始颜色(内含hue, saturation, luminance等hls属性)  
++ startScale/startScaleVariance 开始大小 
+
+[engine]  
++ accelerationDirection 重力方向  
++ accelerationSpeed 重力速度  
++ blendMode 叠加模式，只支持普通和添加模式  
++ friction 阻力值，摩擦系数  
+
+[system]  
++ importData()/importFromJson() 引入数据  
++ container 使用在createjs中的container实例  
++ clear() 清除画布  
++ dispose() 销毁对象  
++ isPlaying 判断动画播放  
++ pause() 暂停  
++ resume() 重新播放  
++ setData() 设置配置  
++ update() 刷新画布  
 
 
