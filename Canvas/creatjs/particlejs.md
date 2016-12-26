@@ -51,4 +51,10 @@ stage.addChild(particleSystem.container);
 + setData() 设置配置  
 + update() 刷新画布  
 
+### 1.2 画布属性
+属性 | 类型 | 描述
+--- | --- | ---
+width | number | 单位px
+height | number | 单位px
+bgColor | string | hex颜色，背景颜色
 
