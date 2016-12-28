@@ -34,7 +34,8 @@ undefined(undefined), boolean, string, number(NaN), object(对象或null), funct
 + 数值转换Number(所有), parseInt(以数字开头的string), parseFloat(string)
 
 ##### 1.3 Object
-var o = {}; // var o = new Object();
+var o = {}; // var o = new Object();  
+
 实例属性方法 | 含义
 --- | ---
 constructor | 保存创建当前对象的构造函数(如Object())
@@ -108,7 +109,7 @@ E5(ie9+)开始尅一使用`Array.isArray(obj)`来判断。
 函数赋值: 声明时`var fn = function(){};`, 或则`var fn2 = fn; function fn(){}`  
 **属性和方法**  
 + arguments和this，arguments如 *二 2*。
-    [this]
+    [this]  
     方法调用:等于调用该方法的对象实例；  
     函数调用:等于全局对象，window，通用函数相当于都为window的方法，原理同上；  
     构造器调用:new时，this为建立的新对象实例；  
@@ -287,6 +288,7 @@ var result = prompt("What is your name? ", "默认值");
 ##### 2.1 概要
 `window.location`和`document.location`皆可，同时属于BOM和DOM  
 **相关属性：**  
+
 属性 | 例子 | 说明
 --- | --- | ---
 hash | #index | URL地址中#后的字符串
@@ -484,6 +486,7 @@ view | 与事件关联的抽象视图，等同于发生事件的window对象
 ##### W3C和IE的event
 一般在处理函数的第一个回调参数即event, `function(event){}`；  
 而老版本DOM0中是`var event = window.event`的方式使用。  
+
 IE中的属性方法 | 说明
 --- | ---
 cancelBubble | 默认false，为true时等效stopPropagation()  
