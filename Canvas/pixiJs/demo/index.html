@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pixijs</title>
+    <script src="pixi.js"></script>
+</head>
+    <style>
+        body,div {margin: 0; padding: 0}
+        canvas {position: absolute; display: block;}
+    </style>
+<body>
+    <script>
+        var renderer = PIXI.autoDetectRenderer(256, 256);
+        var stage = new PIXI.Container();
+        var qibi;
+        function keyboard(keyCode) {
+          var key = {};
+          key.code = keyCode;
+          key.isDown = false;
+          key.isUp = true;
+          key.press = undefined;
+          key.release = undefined;
+          //The `downHandler`
+          key.downHandler = function(event) {
+            if (event.keyCode === key.code) {
+              if (key.isUp && key.press) key.press();
+              key.isDown = true;
+              key.isUp = false;
+            }
+            event.preventDefault();
+          };
+
+          //The `upHandler`
+          key.upHandler = function(event) {
+            if (event.keyCode === key.code) {
+              if (key.isDown && key.release) key.release();
+              key.isDown = false;
+              key.isUp = true;
+            }
+            event.preventDefault();
+          };
+
+          //Attach event listeners
+          window.addEventListener(
+            "keydown", key.downHandler.bind(key), false
+          );
+          window.addEventListener(
+            "keyup", key.upHandler.bind(key), false
+          );
+          return key;
+        }
+        
+        document.body.appendChild(renderer.view);
+        renderer.autoResize = true;
+        renderer.resize(window.innerWidth, window.innerHeight);
+
+        //预加载
+        PIXI.loader
+            .add("qibi", "./qibi.png")
+            .load(start);
+
+        function start() {
+            qibi = new PIXI.Sprite(PIXI.loader.resources["qibi"].texture);
+            qibi.scale.set(0.5, 0.5);
+            qibi.anchor.set(0.5, 0.5);
+            qibi.y = 100;
+            stage.addChild(qibi);
+            renderer.render(stage);
+            console.log(qibi, qibi.position, qibi.scale);
+
+            var key_left = keyboard(37);
+            var key_right = keyboard(39);
+            key_left.press = function() {turn_left(qibi)};
+            key_right.press = function() {turn_right(qibi)};
+
+            gameLoop();
+        }
+        function turn_left(sprite) {
+            sprite.scale.x >0 && (sprite.scale.x = -sprite.scale.x);
+        }
+        function turn_right(sprite) {
+            sprite.scale.x <0 && (sprite.scale.x = -sprite.scale.x);
+        }
+        function gameLoop() {
+          requestAnimationFrame(gameLoop);
+          qibi.y += 0.2;
+          qibi.x += 1;
+          
+          renderer.render(stage);
+        }
+
+        renderer.view.addEventListener('click', function() {
+            // stage.removeChild(qibi);
+            // qibi.visible = false;
+            renderer.render(stage);
+        });
+    </script> 
+</body>
+</html>
