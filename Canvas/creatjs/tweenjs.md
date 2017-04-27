@@ -30,7 +30,8 @@ createjs.Tween.get(target).wait(500).to({alpha:0, visible:false}, 1000).call(han
 + postion: 当前播放到的毫秒或滴答数  
 + duration: 总的毫秒或滴答  
 
-【方法】
+【方法】  
+
 名称 | 描述
 --- | ---
 Tween.get() | 如上，获取tween实例  
