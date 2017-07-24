@@ -129,6 +129,13 @@ function gameLoop() {
 gameLoop();
 ```
 
+## 4. 交互
+显示元素是可以绑定基本事件的：  
+```js
+sprite.interactive = true;
+sprite.on('touchstart, cb');
+```
+
 
 
 
