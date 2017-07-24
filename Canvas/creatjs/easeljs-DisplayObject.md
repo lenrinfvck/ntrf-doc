@@ -1,4 +1,4 @@
-# EaselJs - DIsplayObject相关笔记
+# EaselJs - DisplayObject相关笔记
 EaselJs主要负责对画布元素的抽象，定义各种对象，管理画布
 >官方文档：[中文文档](http://www.createjs.cc/easeljs/docs/modules/EaselJS.html)  
 

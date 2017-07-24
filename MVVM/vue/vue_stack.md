@@ -4,8 +4,8 @@
 + {{单向绑定}}, v-bind:data="value", :data="value" 
 + v-model="双向绑定"  
 + v-on:click="绑定事件", @click="method"  
-+ {{* 单次绑定 }}  
-+ {{{ 不转义html }}}  
++ {{* 单次绑定 }} 、 v-once  
++ {{{ 不转义html }}} 、 v-html  
 + {{ ok ? 'YES' : 'NO' }}, {{ msg.split(''),reverse().join('') }}  
 
 #### 常用指令

@@ -129,6 +129,7 @@ function gameLoop() {
 gameLoop();
 ```
 
+## 4. Graphic
 
 
 
