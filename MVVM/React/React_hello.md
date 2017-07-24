@@ -34,7 +34,8 @@
 
 ### 3.组件
 使用`React.createClass`创建:  
-```js
+
+```html
 var HelloMessage = React.createClass({
   render: function() {
     return <h1>Hello {this.props.name}</h1>;
@@ -46,6 +47,7 @@ ReactDOM.render(
   document.getElementById('example')
 );
 ```
+
 如上，  
 1. `React.createClass` 申明组件类，必须要配置render方法，变量名需大写。与ng类似，组件顶层只能有一个标签。    
 2. `<HelloMessage />` 使用时创建了相应实例。  
@@ -54,7 +56,7 @@ ReactDOM.render(
 
 #### this.props.children
 非标签属性，表示该组件的所有子节点
-```js
+```html
 //如下两个<span>即是NotesList的children
 ReactDOM.render(
   <NotesList>
@@ -71,7 +73,7 @@ ReactDOM.render(
 
 #### PropTypes - 属性验证 
 用于验证组件标签属性:
-```js
+```html
 var MyTitle = React.createClass({
   propTypes: {
     //必填字符串
@@ -96,7 +98,7 @@ var MyTitle = React.createClass({
 ```
 
 #### this.refs - 获取实际DOM对象
-```js
+```html
 handleClick: function() {
     //获取到真实DOM
     this.refs.myTextInput.focus();
