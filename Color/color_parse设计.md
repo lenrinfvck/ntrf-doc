@@ -1,3 +1,9 @@
+>[MDN-颜色文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value)  
+>[wiki-HSL描述](https://en.wikipedia.org/wiki/HSL_and_HSV)  
+>[wiki-rgb描述](https://en.wikipedia.org/wiki/RGB_color_model#Geometric_representation)  
+>[博客-颜色转换](http://www.zhangxinxu.com/wordpress/2010/03/javascript-hex-rgb-hsl-color-convert/)  
+
+
 ### Constructor
 + 解析支持的6种格式`rgba(r,g,b,a)`, `rbg()`, `white`, `hsl`, `hsla`, `hex`  
 + `.rgba(r, g, b, a/[r, g, b, a])`形式转化已分离的数据  
