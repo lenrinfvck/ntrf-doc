@@ -46,3 +46,16 @@ let strLength: number = (someValue as string).length; //jsx只支持此写法
 ```
 
 ### 2. 接口
+使用`interface`定义接口  
+
+```ts
+    interface LabelledValue {
+    label: string;
+    }
+    function printLabel(labelledObj: LabelledValue) {
+    console.log(labelledObj.label);
+    }
+    let myObj = {size: 10, label: "Size 10 Object"};
+    printLabel(myObj);
+```
+
