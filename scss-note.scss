@@ -1,0 +1,124 @@
+// 1.元素缩写
+.funky {
+  font: {
+    size: 30em;
+    weight: bold;
+  }
+  font: 2px/3px {
+      family: fantasy;
+      size: 30em;
+      weight: bold;
+  }
+}
+
+// 2.变量
+$color: blue;
+$color: red !default; //默认值
+
+// 3.插值 - 优先转换{}内表达式，方便之后解析
+$width: 10px
+font: 1px / #{$width}    // font: 1px/10px
+
+p:before {
+  content: "I ate #{5 + 10} pies!";  // "I ate 15 pies!"
+}
+
+// 4.继承扩展
+.error {
+  border: 1px #f00;
+}
+.error.intrusion {
+  background-image: url("/image/hacked.png");
+}
+.seriousError {
+  @extend .error;
+  border-width: 3px;
+}
+ /* =======> */
+.error, .seriousError {
+  border: 1px #f00;
+}
+.error.intrusion, .seriousError.intrusion {
+  background-image: url("/image/hacked.png"); 
+}
+.seriousError {
+  border-width: 3px; 
+}
+ /* %定义的只用于extend，不会实际生成 */ 
+%error {
+  border: 1px #f00;
+}
+
+// 5.debug
+@debug $width / 12;  //控制台输出结果
+@warn xxx;
+
+// 6.if
+$type: monster;
+p {
+  @if $type == ocean {
+    color: blue;
+  } @else if $type == matador {
+    color: red;
+  } @else if $type == monster {
+    color: green;
+  } @else {
+    color: black;
+  }
+}
+
+// 7.for, while
+ /* @for $var from <start> through <end> */
+@for $i from 1 through 3 {
+  .item-#{$i} { width: 2em * $i; }
+}
+ /* @for $var from <start> to <end> */
+
+$i: 6;
+@while $i > 0 {
+  .item-#{$i} { width: 2em * $i; }
+  $i: $i - 2;
+}
+
+// 8.@each $var in <list>
+@each $animal in puma, sea-slug, egret, salamander {
+  .#{$animal}-icon {
+    background-image: url('/images/#{$animal}.png');
+  }
+}
+
+// 9.@mixin
+@mixin clearfix {
+  display: inline-block;
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  * html & { height: 1px }
+}
+
+.page-title {
+  @include clearfix;
+  padding: 4px;
+}
+
+ /* 参数 */
+@mixin sexy-border($color, $width) {
+  border: {
+    color: $color;
+    width: $width;
+    style: dashed;
+  }
+}
+
+p { @include sexy-border(blue, 1in); }
+
+// 10.@function
+@function grid-width($n) {
+  @return $n * $grid-width + ($n - 1) * $gutter-width;
+}
+
+#sidebar { width: grid-width(5); }
