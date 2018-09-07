@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lottie-web-test</title>
+    <script src="./lottie.min.js"></script>
+    <style>
+        #first-con {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="first-con"></div>
+    <script>
+        let el = document.querySelector('#first-con');
+        let target = lottie.loadAnimation({
+            container: el,
+            renderer: 'svg',
+            autoplay: false,
+            loop: true,
+            path: 'fingerprint_success.json'
+        });
+        target.goToAndStop(5, true);
+        el.addEventListener('mousedown', () => {
+            target.play()
+        });
+        el.addEventListener('mouseup', () => {
+            target.pause()
+        });
+        window.target = target;
+    </script>
+</body>
+</html>
