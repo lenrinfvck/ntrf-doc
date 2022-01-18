@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="jsQR.js"></script>
+  <title>Document</title>
+</head>
+<style>
+  .t-666 {
+    color: #666;
+  }
+  h4 {
+    margin: 10px auto;
+  }
+</style>
+<body>
+  <h2 style="text-align: center;">二维码识别</h1>
+  <div style="text-align: center;">
+    <h4 class="t-666">摄像头</h4>
+    <video id="test" style="margin: 0 auto;" width="250px" height="250px"></video>
+    <h4 class="t-666">截图</h4>
+    <canvas id="canvas" style="margin: 0 auto; border: 1px solid #eee" width="250px" height="250px"></canvas>
+    <br>
+    <button style="width: 80px; height: 40px; margin-top: 20px;" onclick="startQr()"><b>识别</b></button>
+  </div>
+</body>
+<script>
+  var active = false;
+  var video = document.getElementById('test');
+  var canvas = document.getElementById('canvas');
+  var videoWidth = 250;
+  var videoHeight = 250;
+
+  navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: {
+      width: videoWidth,
+      height: videoHeight,
+      facingMode: { exact: "environment" }
+    },
+  }).then(function(stream) {
+    if (video.srcObject !== undefined) {
+      video.srcObject = stream;
+    } else if (window.videoEl.mozSrcObject !== undefined) {
+      video.mozSrcObject = stream;
+    } else if (window.URL.createObjectURL) {
+      video.src = window.URL.createObjectURL(stream);
+    } else if (window.webkitURL) {
+      video.src = window.webkitURL.createObjectURL(stream);
+    } else {
+      video.src = stream;
+    }
+    // 不希望用户来拖动进度条的话，可以直接使用playsinline属性，webkit-playsinline属性
+    video.playsInline = true;
+    const playPromise = video.play();
+    playPromise.catch(() => ( alert('video error') ));
+    // 视频开始播放时进行周期性扫码识别
+    playPromise.then(run);
+  })
+  .catch(function(err) {
+    document.querySelector('#test').append(JSON.stringify(err, null, 2));
+    /* 处理error */
+  });
+
+  function startQr() {
+    active = true;
+    run();
+  }
+
+  function run() {
+    if(active) {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function tick() {
+    if (video && video.readyState === video.HAVE_ENOUGH_DATA) {
+      // 开始在画布上绘制视频
+      var imageData;
+      var ctx
+      var code = false;
+      canvas.width = videoWidth;
+      canvas.height = videoHeight;
+      ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // getImageData() 复制画布上制定矩形的像素数据
+      imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      code = false;
+      try {
+        // 识别二维码
+        code = jsQR(imageData.data, imageData.width, imageData.height);
+      } catch (e) {
+        alert('error' + e);
+      }
+      // 如果识别出二维码，绘制矩形框
+      if (code) {
+        // this.drawBox(code.location);
+        // 识别成功事件处理
+        active = false;
+        alert(code.data);
+      }
+    }else {
+      alert('viedeo not ready');
+    }
+    run();
+  }
+</script>
+</html>
