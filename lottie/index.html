@@ -12,6 +12,9 @@
             height: 300px;
             margin: 0 auto;
         }
+        #first-con:active {
+            background: inherit;
+        }
     </style>
 </head>
 <body>
@@ -27,16 +30,17 @@
         });
         target.goToAndStop(10, true);
         el.addEventListener('mousedown', () => {
-            target.play()
+            target.play();
         });
-        el.addEventListener('touchstart', () => {
-            target.play()
+        el.addEventListener('touchstart', e => {
+            target.play();
+            e.preventDefault();
         });
         el.addEventListener('mouseup', () => {
-            target.pause()
+            target.pause();
         });
         el.addEventListener('touchend', () => {
-            target.pause()
+            target.pause();
         });
         window.target = target;
     </script>

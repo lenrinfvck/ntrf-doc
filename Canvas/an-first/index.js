@@ -12,7 +12,7 @@ lib.properties = {
 	opacity: 1.00,
 	webfonts: {},
 	manifest: [
-		{src:"images/_54058338_p0.jpg", id:"_54058338_p0"}
+		{src:"https://github.com/lenrinfvck/ntrf-doc/blob/master/Canvas/an-first/images/_54058338_p0.jpg", id:"_54058338_p0"}
 	]
 };
 
