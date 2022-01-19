@@ -24,82 +24,73 @@
     <button style="width: 80px; height: 40px; margin-top: 20px; margin-right: 20px;" onclick="start()"><b>START</b></button>
     <button style="width: 80px; height: 40px; margin-top: 20px;" onclick="end()"><b>END</b></button>
     <h4 class="t-666">视频</h4>
-    <video controls id="resVideo" style="margin: 0 auto;" width="250px" height="250px" type="video/mp4"></video>
+    <video controls id="resVideo" style="margin: 0 auto;" width="250px" height="250px" type="video/webm"></video>
   </div>
 </body>
 <script>
   var active = false;
   var video = document.getElementById('video');
   var recordingVideo = document.getElementById('resVideo');
-  // var canvas = document.getElementById('canvas');
   var videoWidth = 250;
   var videoHeight = 250;
   var videoStream;
   var recordedChunks = [];
-
-  navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: {
-      width: videoWidth,
-      height: videoHeight,
-      facingMode: { exact: "environment" }
-    },
-  }).then(function(stream) {
-    if (video.srcObject !== undefined) {
-      video.srcObject = stream;
-    } else if (window.videoEl.mozSrcObject !== undefined) {
-      video.mozSrcObject = stream;
-    } else if (window.URL.createObjectURL) {
-      video.src = window.URL.createObjectURL(stream);
-    } else if (window.webkitURL) {
-      video.src = window.webkitURL.createObjectURL(stream);
-    } else {
-      video.src = stream;
-    }
-    videoStream = stream;
-    // 不希望用户来拖动进度条的话，可以直接使用playsinline属性，webkit-playsinline属性
-    video.playsInline = true;
-    const playPromise = video.play();
-    playPromise.catch(() => ( alert('video error') ));
-  })
-  .catch(function(err) {
-    document.querySelector('#test').append(JSON.stringify(err, null, 2));
-    /* 处理error */
-  });
+  var mediaRecorder;
+  function newMedia() {
+    return navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: {
+        width: videoWidth,
+        height: videoHeight,
+        facingMode: { exact: "environment" }
+      },
+    }).then(function(stream) {
+      if (video.srcObject !== undefined) {
+        video.srcObject = stream;
+      } else if (window.videoEl.mozSrcObject !== undefined) {
+        video.mozSrcObject = stream;
+      } else if (window.URL.createObjectURL) {
+        video.src = window.URL.createObjectURL(stream);
+      } else if (window.webkitURL) {
+        video.src = window.webkitURL.createObjectURL(stream);
+      } else {
+        video.src = stream;
+      }
+      videoStream = stream;
+      // 不希望用户来拖动进度条的话，可以直接使用playsinline属性，webkit-playsinline属性
+      video.playsInline = true;
+      const playPromise = video.play();
+      playPromise.catch(() => { /* alert('video error') */ });
+    })
+    .catch(function(err) {
+      /* 处理error */
+    });
+  }
 
   function start() {
-    var options = { mimeType: "video/mp4; codecs=vp9" };
-    recordedChunks = [];
-    mediaRecorder = new MediaRecorder(videoStream, options);
-    mediaRecorder.ondataavailable = handleDataAvailable;
-    mediaRecorder.start();
-
-    setTimeout(event => {
-      console.log("stopping");
-      mediaRecorder.state !== 'inactive' && mediaRecorder.stop();
-    }, 5000);
+    newMedia().then(() => {
+      var options = { mimeType: "video/webm; codecs=vp9" };
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(videoStream, options);
+      mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
+      mediaRecorder.start();
+      setTimeout(event => {
+        console.log("stopping");
+        mediaRecorder.state !== 'inactive' && mediaRecorder.stop();
+      }, 5000);
+    });
   }
 
   function handleDataAvailable(event) {
     console.log("data-available");
     if (event.data.size > 0) {
       recordedChunks.push(event.data);
+      var URL = window.URL || window.webkitURL
       var blob = new Blob(recordedChunks, {
-        type: "video/mp4"
+        type: "video/webm"
       });
       var url = URL.createObjectURL(blob);
-      // recordingVideo.src = url;
-      if (recordingVideo.srcObject !== undefined) {
-        recordingVideo.srcObject = blob;
-      } else if (window.videoEl.mozSrcObject !== undefined) {
-        recordingVideo.mozSrcObject = blob;
-      } else if (window.URL.createObjectURL) {
-        recordingVideo.src = window.URL.createObjectURL(blob);
-      } else if (window.webkitURL) {
-        recordingVideo.src = window.webkitURL.createObjectURL(blob);
-      } else {
-        recordingVideo.src = url;
-      }
+      recordingVideo.src = url;
       const playPromise = recordingVideo.play();
     } else {
       // ...
@@ -107,24 +98,9 @@
   }
 
   function end() {
-    // mediaRecorder.pause();
-    // mediaRecorder.resume();
-    mediaRecorder.stop();
-    // console.log(mediaRecorder);
-    // var stream = mediaRecorder.stream;
-    // if (recordingVideo.srcObject !== undefined) {
-    //   recordingVideo.srcObject = stream;
-    // } else if (window.videoEl.mozSrcObject !== undefined) {
-    //   recordingVideo.mozSrcObject = stream;
-    // } else if (window.URL.createObjectURL) {
-    //   recordingVideo.src = window.URL.createObjectURL(stream);
-    // } else if (window.webkitURL) {
-    //   recordingVideo.src = window.webkitURL.createObjectURL(stream);
-    // } else {
-    //   recordingVideo.src = stream;
-    // }
-    // const playPromise = recordingVideo.play();
-    // playPromise.catch(() => ( alert('video error') ));
+    videoStream.getTracks().forEach(track => {
+        track.stop()
+    })
   }
 </script>
 </html>
