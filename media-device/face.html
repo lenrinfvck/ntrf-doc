@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="./lib/face-api.min.js"></script>
+  <title>Face Test</title>
+</head>
+<style>
+  body, div {
+    margin: 0;
+  }
+  .t-666 {
+    color: #666;
+  }
+  h4 {
+    margin: 10px auto;
+  }
+  #topImg {
+    display: none;
+  }
+  .mask, .sunGlasses {
+    width: 200px;
+    height: 200px;
+    background: url("./img/mask_lite.png") center center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;
+  }
+  .sunGlasses {
+    background-image: url("./img/sunglasses_lite.png");
+  }
+</style>
+<body>
+  <h2 style="text-align: center;">人脸识别</h1>
+  <div style="text-align: center;">
+    <h4 class="t-666">摄像头</h4>
+    <div style="width: 400px; height: 400px; position: relative; margin: 0 auto;">
+      <video id="video" style="margin: 0 auto;" width="400px" height="400px"></video>
+      <div id="topImg" class="mask"></div>
+      <canvas style="position: absolute; top:0; left: 0; z-index:10;" id="canvas" style="margin: 0 auto; border: 1px solid #eee" width="400px" height="400px"></canvas>
+    </div>
+    <p id="text"></p>
+    <br>
+    <select id="select" style="width: 150px; height: 60px; line-height: 60px; margin: 10px auto;">
+        <option value="test" selected>Test</option>
+        <option value="mask">Mask</option>
+        <option value="sunGlasses">SunGlasses</option>
+    </select>
+    <textarea id="resText" style="width: 360px; height: 240px;"></textarea>
+  </div>
+</body>
+<script>
+  let active = false;
+  let video = document.getElementById('video');
+  let canvas = document.getElementById('canvas');
+  let text = document.getElementById('text');
+  let resText = document.getElementById('resText');
+  let select = document.getElementById('select');
+  let topImg = document.getElementById('topImg');
+  let videoWidth = 400;
+  let videoHeight = 400;
+
+  navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: {
+      width: videoWidth,
+      height: videoHeight,
+      facingMode: { exact: "user" }
+    },
+  }).then(function(stream) {
+    if (video.srcObject !== undefined) {
+      video.srcObject = stream;
+    } else if (window.videoEl.mozSrcObject !== undefined) {
+      video.mozSrcObject = stream;
+    } else if (window.URL.createObjectURL) {
+      video.src = window.URL.createObjectURL(stream);
+    } else if (window.webkitURL) {
+      video.src = window.webkitURL.createObjectURL(stream);
+    } else {
+      video.src = stream;
+    }
+    // 不希望用户来拖动进度条的话，可以直接使用playsinline属性，webkit-playsinline属性
+    video.playsInline = true;
+    const playPromise = video.play();
+    playPromise.catch(() => ( alert('video error') ));
+  })
+  .catch(function(err) {
+    /* 处理error */
+  });
+
+  const detection = async () => {
+    // await faceapi.loadTinyFaceDetectorModel(MODEL_URL)
+    // common sizes are 128, 160, 224, 320, 416, 512, 608, for face tracking via webcam I would recommend using smaller sizes
+    // scoreThreshold?: number minimum confidence threshold default: 0.5
+    const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 512 })
+    const fullFaceDescriptions = faceapi.detectSingleFace(video, options)
+    // withAgeAndGender
+    const dims = faceapi.matchDimensions(canvas, video, true)
+    try {
+      const resizedResults = await faceapi.resizeResults(fullFaceDescriptions, dims)
+      console.table(resizedResults);
+      if (resizedResults) {
+        let type = select.value || 'test';
+        text.innerText = "检测到有人"
+        // draw
+        switch(type) {
+          case 'mask':
+          case 'sunGlasses':
+            setImg(type, resizedResults);
+            break;
+          default:
+          topImg.style.display = "none";
+          resText.value = JSON.stringify(resizedResults, null, 2);
+          faceapi.draw.drawDetections(canvas, resizedResults);
+        }
+      }
+      else {
+        text.innerText = "没有检测到人"
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+  (async () => {
+    await faceapi.loadTinyFaceDetectorModel('https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/tiny_face_detector_model-weights_manifest.json')
+    text.innerText = "初始化完成"
+  })()
+  video.onplay = () => {
+    setInterval(detection, 100);
+  };
+  function setImg(type, data) {
+    const { _x, _y, _width, _height } = data._box;
+    let offsetX = type === 'mask' ? 0 : 0;
+    let offsetY = type === 'mask' ? -10 : -75;
+    topImg.className = type;
+    topImg.style.display = 'block';
+    topImg.style.top = _y + offsetY + 'px';
+    topImg.style.left = _x + offsetX +'px';
+    resText.value = JSON.stringify({
+      top: topImg.style.top,
+      left: topImg.style.left,
+      display: topImg.style.display,
+    }, null, 2);
+  }
+</script>
+</html>
